@@ -1,0 +1,483 @@
+{
+  "name": "Dashboard Generazione Campagne",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "3",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -592,
+        -144
+      ],
+      "id": "3cd54e6d-5915-4a02-bd57-11cb0686a0f0",
+      "name": "Webhook",
+      "webhookId": "4bc38477-f75e-4a84-803e-725c0d3ec17d"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        576,
+        -96
+      ],
+      "id": "a2b38a1c-cb1e-43db-a979-126664aa039d",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json[\"prompt easy\"] }}\n{{ $json[\"prompt advanced\"] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=REGOLE DI GENERAZIONE CREATIVE\nDiversificazione Automatica:\nPer Meta: Mix di formati (40% carousel, 30% video, 30% image)\n\nPer Google: Mix di intent (50% high-funnel, 50% conversion-focused)\n\nPer TikTok: Mix di approcci (33% trend-based, 33% educational, 33% entertaining)\n\nBudget Allocation per Creative:\nBudget per creative = (platform_budget / creative_count) * 1.2 (per testing overhead)\n\nMinimum viable budget: €50 per creative per platform\n\nMotivazione Scelte:\nSe decidi tu i numeri, includi sempre:\n\n\"Basato su budget di €X, raccomando Y creative per Meta perché...\"\n\n\"Considerando l'obiettivo di Z, suggerisco W variations per Google per testare...\"\n\n\"Data la natura del prodotto, propongo V concepts per TikTok per coprire...\"\n\nESEMPI DI CALCOLO AUTOMATICO\nCaso 1: Budget Alto (€5000+)\n\nMeta: 5-6 creative (test formati complessi)\n\nGoogle: 4-5 ad groups (comprehensive keyword coverage)\n\nTikTok: 3-4 concepts (high production value)\n\nCaso 2: Budget Medio (€1500-€5000)\n\nMeta: 3-4 creative (balanced format mix)\n\nGoogle: 2-3 ad groups (core messaging)\n# IDENTITÀ E SCOPO\nSei CampaignForge AI, un esperto sistema di generazione campagne pubblicitarie multi-piattaforma. La tua missione è trasformare input di marketing in campagne pubblicitarie complete e ottimizzate per Meta Ads, Google Ads e TikTok Ads.\n\n## COMPORTAMENTO GENERALE\n- Analizzi input e generi contenuti coerenti cross-piattaforma\n- Mantieni branding consistency tra piattaforme diverse\n- Adatti tono, formato e CTA alle specificità di ogni canale\n- Proponi sempre strategie data-driven e best practices\n- Generi multiple creative variations per testing A/B\n\n## INPUT ACCETTATI\n### Modalità Easy:\n- Descrizione testo libera di prodotto/servizio\n- **creative_counts**: { \"meta\": number, \"google\": number, \"tiktok\": number } (opzionale)\n\n### Modalità Advanced:\n- Tutti i parametri del form avanzato\n- **creative_counts**: { \"meta\": number, \"google\": number, \"tiktok\": number } (opzionale)\n\n## GESTIONE CREATIVE COUNTS\n\n### Se creative_counts NON specificato:\n**Calcolo Automatico Basato Su:**\n- Budget totale (più budget = più creative)\n- Complessità prodotto (più features = più angoli)\n- Obiettivo campagna (awareness = più varietà, conversion = più focus)\n- Durata campagna (campagne lunghe = più rotazione creative)\n\n**Default Strategy:**\n- **Meta**: 3-4 creative (test diversi formati: carousel, single image, video, collection)\n- **Google**: 2-3 ad groups (test headline combinations e descrizioni)\n- **TikTok**: 2-3 video concepts (test diversi hook e storytelling approaches)\n\n### Se creative_counts SPECIFICATO:\n- Rispetta esattamente i numeri richiesti\n- Assicura diversità tra creative della stessa piattaforma\n- Distribuisci formati/types in modo bilanciato\n\n## SPECIFICHE PER PIATTAFORMA\n\n### META ADS (Facebook/Instagram)\n**Creative Variations Possibili:**\n1. **Carousel Ads** (multi-product/features)\n2. **Single Image Ads** (hero product shot)\n3. **Video Ads** (15-30s demonstration)\n4. **Collection Ads** (catalog integration)\n5. **Stories Ads** (full-screen vertical)\n\n**Testing Parameters:**\n- Different headlines (benefit vs feature-focused)\n- Different visuals (lifestyle vs product-centric)\n- Different CTAs (Discover vs Buy Now)\n\n### GOOGLE ADS\n**Creative Variations Possibili:**\n1. **Search Ads** (multiple headline combinations)\n2. **Responsive Display Ads** (image + text variations)\n3. **Shopping Ads** (different product angles)\n4. **Video Ads** (YouTube in-stream)\n\n**Testing Parameters:**\n- Headline combinations (keyword-rich vs benefit-driven)\n- Description emphasis (features vs social proof)\n- Extension combinations\n\n### TIKTOK ADS\n**Creative Variations Possibili:**\n1. **In-Feed Videos** (different hooks/approaches)\n2. **Trend Participation** (different viral trends)\n3. **User-Generated Style** (authentic vs polished)\n4. **Before-After Stories** (transformation focus)\n\n**Testing Parameters:**\n- Video hooks (question vs statement vs problem-solution)\n- Music/style (trendy vs original)\n- Caption approach (storytelling vs direct)\n\nTikTok: 2-3 concepts (focused approaches)\n\nCaso 3: Budget Basso (sotto €1500)\n\nMeta: 2 creative (essential formats only)\n\nGoogle: 1-2 ad groups (highest intent focus)\n\nTikTok: 1-2 concepts (most viral potential)\n\nGESTIONE INPUT CREATIVE COUNTS\nSe l'utente specifica:\njson\n\"creative_counts\": {\n  \"meta\": 4,\n  \"google\": 2, \n  \"tiktok\": 3\n}\nGenera ESATTAMENTE quei numeri\n\nAssicura diversità interna\n\nOttimizza budget allocation di conseguenza\n\nSe l'utente NON specifica:\nCalcola basato su budget, complessità prodotto, obiettivi\n\nSpiega la logica nella \"distribution_rationale\"\n\nSuggerisci A/B testing strategy"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        -96
+      ],
+      "id": "dab0ac4b-5ac8-4fad-8dc6-b01ecd1c72fd",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        320
+      ],
+      "id": "eec9f589-9024-4652-b398-273bdc87ff83",
+      "name": "Embeddings OpenAI",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        32,
+        160
+      ],
+      "id": "1bf3656e-230d-4421-b876-8522a7bd1d09",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YktlbaYzApMDhbtG",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"creative_strategy\": {\n    \"total_creatives\": 8,\n    \"distribution_rationale\": \"Basato sul budget di €1500 e sull'obiettivo di aumentare vendite, raccomando 4 creative per Meta (piattaforma visiva che beneficia di più varietà), 2 per Google (focus su intent di acquisto diretto) e 2 per TikTok (produzione video più impegnativa). Questa distribuzione ottimizza il testing A/B mantenendo costi sostenibili.\",\n    \"a_b_testing_recommendations\": [\n      \"Testa headline benefit-focused vs feature-focused su Meta\",\n      \"Compara CTA 'Acquista Ora' vs 'Scopri Offerte' su Google\",\n      \"Sperimenta hook diversi (problem-solution vs trend participation) su TikTok\"\n    ]\n  },\n  \"meta_ads\": {\n    \"creative_count\": 4,\n    \"budget_allocation\": \"50%\",\n    \"creatives\": [\n      {\n        \"type\": \"carousel\",\n        \"headline\": \"🏃‍♂️ Il Tuo Personal Trainer Digitale\",\n        \"primary_text\": \"Monitora battito, sonno e attività 24/7. GPS integrato e batteria 7 giorni. Trasforma ogni allenamento in un successo misurabile!\",\n        \"description\": \"Smartwatch fitness avanzato con analisi dati professionali\",\n        \"call_to_action\": \"Scopri di più\",\n        \"visual_description\": \"Carousel con: 1) Lifestyle running, 2) Schermata metriche, 3) Design elegante, 4) App companion\",\n        \"targeting_focus\": \"Fitness enthusiasts 25-45 anni\"\n      },\n      {\n        \"type\": \"video\",\n        \"headline\": \"📊 Dati Precisi, Performance Migliori\",\n        \"primary_text\": \"Scopri come il monitoraggio cardiaco avanzato può rivoluzionare i tuoi allenamenti. Video dimostrativo!\",\n        \"description\": \"Tecnologia medica per atleti professionisti e appassionati\",\n        \"call_to_action\": \"Guarda video\",\n        \"visual_description\": \"Video 30s: demo features real-time, testimonianza atleta, close-up tecnologia\",\n        \"targeting_focus\": \"Tech early adopters interessati a wellness\"\n      },\n      {\n        \"type\": \"single_image\",\n        \"headline\": \"⚡ Batteria 7 Giorni - Mai Più a Corto\",\n        \"primary_text\": \"Dimentica la ricarica quotidiana. Smartwatch con autonomia record e ricarica rapida 15min.\",\n        \"description\": \"Risolvi il problema batteria con tecnologia innovativa\",\n        \"call_to_action\": \"Acquista ora\",\n        \"visual_description\": \"Hero shot prodotto su sfondo sportivo con overlay durata batteria\",\n        \"targeting_focus\": \"Utenti frustrati da batteria corta dispositivi simili\"\n      },\n      {\n        \"type\": \"collection\",\n        \"headline\": \"🎨 Scegli il Tuo Stile Fitness\",\n        \"primary_text\": \"4 colori, 3 dimensioni cinturino, personalizzazione completa. Trova lo smartwatch perfetto per te!\",\n        \"description\": \"Catalogo personalizzazione e accessori compatibili\",\n        \"call_to_action\": \"Scegli colore\",\n        \"visual_description\": \"Grid prodotti che mostra varianti colore e accessori\",\n        \"targeting_focus\": \"Fashion-conscious fitness users\"\n      }\n    ]\n  },\n  \"google_ads\": {\n    \"creative_count\": 2,\n    \"budget_allocation\": \"30%\",\n    \"ad_groups\": [\n      {\n        \"theme\": \"High-Intent Purchase\",\n        \"headline_1\": \"Smartwatch Fitness GPS\",\n        \"headline_2\": \"Batteria 7 Giorni - €199\",\n        \"description\": \"Monitoraggio cardiaco 24/7 e analisi sonno. Consegna rapida e garanzia 2 anni. Acquista sicuro!\",\n        \"final_url\": \"https://techfit.it/smartband-pro-x1\",\n        \"keywords\": [\n          \"smartwatch fitness\",\n          \"orologio gps running\",\n          \"cardiofrequenzimetro preciso\",\n          \"monitoraggio sonno wearable\"\n        ],\n        \"extensions\": [\n          \"Price: €199\",\n          \"Sitelink: Specifiche Tecniche\",\n          \"Sitelink: Recensioni Clienti\",\n          \"Callout: Spedizione Gratuita\"\n        ]\n      },\n      {\n        \"theme\": \"Feature Comparison\",\n        \"headline_1\": \"Monitoraggio Cardiaco Avanzato\",\n        \"headline_2\": \"Confronta con Apple/Google Fit\",\n        \"description\": \"Precisione medica a prezzo accessibile. 30 giorni soddisfatti o rimborsati. Scopri il differenziale!\",\n        \"final_url\": \"https://techfit.it/smartband-pro-x1/comparison\",\n        \"keywords\": [\n          \"smartwatch vs apple watch\",\n          \"miglior fitness tracker 2024\",\n          \"wearable tecnologia medica\",\n          \"recensioni smartwatch fitness\"\n        ],\n        \"extensions\": [\n          \"Price: €199\",\n          \"Sitelink: Confronta Modelli\",\n          \"Sitelink: Video Recensioni\",\n          \"Callout: Tecnologia Hospital-Grade\"\n        ]\n      }\n    ]\n  },\n  \"tiktok_ads\": {\n    \"creative_count\": 2,\n    \"budget_allocation\": \"20%\",\n    \"video_concepts\": [\n      {\n        \"concept_name\": \"Problem-Solution Viral\",\n        \"video_script\": \"SCENA 1: Persona che guarda confusa il vecchio smartwatch con batteria scarica → SCENA 2: Transizione a nuovo dispositivo con 7 giorni batteria → SCENA 3: Montaggio metriche impressionanti e attività quotidiane → SCENA 4: Finale con sorpresa 'E tutto a solo €199!'\",\n        \"caption\": \"La batteria ti delude? Scopri la rivoluzione 👇 #smartwatch #fitness #tecnologia\",\n        \"hashtags\": [\n          \"#fitness\",\n          \"#tecnologia\",\n          \"#smartwatch\",\n          \"#gadget\",\n          \"#innovation\"\n        ],\n        \"call_to_action\": \"Scopri come\",\n        \"trend_references\": [\n          \"Transition trend\",\n          \"Problem solved trend\",\n          \"Price reveal trend\"\n        ]\n      },\n      {\n        \"concept_name\": \"Day in Life Challenge\",\n        \"video_script\": \"SCENA 1: Sveglia con analisi sonno → SCENA 2: Allenamento running con GPS e metriche → SCENA 3: Lavoro con notifiche discrete → SCENA 4: Serata con modalità notte → SCENA 5: Day 7 - batteria ancora al 15% con sorpresa utente\",\n        \"caption\": \"7 giorni, 1 carica. La mia routine trasformata 🚀 #dayinlife #routine #techtok\",\n        \"hashtags\": [\n          \"#dayinmylife\",\n          \"#techtok\",\n          \"#wearable\",\n          \"#tecnologia\",\n          \"#batteria\"\n        ],\n        \"call_to_action\": \"Prova la sfida\",\n        \"trend_references\": [\n          \"Day in life trend\",\n          \"Routine transformation\",\n          \"Week challenge trend\"\n        ]\n      }\n    ]\n  },\n  \"cross_platform\": {\n    \"total_budget\": 1500,\n    \"budget_distribution\": {\n      \"meta\": 750,\n      \"google\": 450,\n      \"tiktok\": 300\n    },\n    \"campaign_duration\": 21,\n    \"kpis\": [\n      \"CTR > 2%\",\n      \"Add to Cart Rate > 8%\", \n      \"ROAS > 3.5\",\n      \"Engagement Rate > 5%\"\n    ],\n    \"creative_rotation_schedule\": \"Meta: rotazione ogni 4 giorni | Google: testing simultaneo | TikTok: lancio scaglionato a 7 giorni\"\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        128
+      ],
+      "id": "fcf3ddc8-696f-438c-ba23-572d4b16e038",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Utilizza questo tool per avere accesso al documetazione ufficiale di meta ads, google ads, tiktok ads per la creazione delle creative",
+        "tableName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "topK": 10,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        272,
+        128
+      ],
+      "id": "caf85332-7efe-4001-8c4a-b2fe75a8e6ed",
+      "name": "Documentazione Ufficiale e Best Practices per Meta, Google e TikTok Ads",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.campaign_type }}",
+                    "rightValue": "easy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ee84aa7f-4c5a-4edd-8610-36dc03a65f6b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e8bebb45-d69b-45e8-a342-f80ccf143d8e",
+                    "leftValue": "={{ $json.body.campaign_type }}",
+                    "rightValue": "advanced",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -368,
+        -144
+      ],
+      "id": "5e8d2f52-cc0a-4c07-a498-b8f737ba2fe5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba89520b-8c80-4fb2-aec8-a1c230e2dcf2",
+              "name": "prompt advanced",
+              "value": "=URL Prodotto/Servizio: {{ $json.body.campaign_data.product_url }}\nCategoria Prodotto: {{ $json.body.campaign_data.product_url }}\nEtà Minima: {{ $json.body.campaign_data.demographics.age_min }}\nEtà Massima: {{ $json.body.campaign_data.demographics.age_max }}\nGenere: {{ $json.body.campaign_data.demographics.genders }}\nPaesi Target: {{ $json.body.campaign_data.geographic.countries }}\nCittà Specifiche (Opzionale): {{ $json.body.campaign_data.geographic.cities }}\nInteressi: {{ $json.body.campaign_data.targeting.interests }}\nComportamenti: {{ $json.body.campaign_data.targeting.behaviors }}\nObiettivo Principale: {{ $json.body.campaign_data.objectives.primary }}\nKPI Secondario: {{ $json.body.campaign_data.objectives.kpi }}\nBudget Totale: {{ $json.body.campaign_data.budget.total }}\nValuta: {{ $json.body.campaign_data.budget.currency }}\nDurata Campagna: {{ $json.body.campaign_data.budget.duration }}\nTono di Voce: {{ $json.body.campaign_data.creative.tone_of_voice }}\nCall-to-Action Preferita: {{ $json.body.campaign_data.creative.cta }}\nMessaggio Chiave: {{ $json.body.campaign_data.creative.message_key }}\nPalette Colori: {{ $json.body.campaign_data.creative.color_palette }}\nParole Chiave: {{ $json.body.campaign_data.creative.keywords }}\n\npiattaforme: {{ $json.body.campaign_data.platforms }}\n}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        -64
+      ],
+      "id": "940b0a77-6b4a-48df-8748-bc49c51640d7",
+      "name": "advanced mode"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6e252a35-8c2b-43f0-a6f3-4211c2301129",
+              "name": "prompt easy",
+              "value": "=URL Prodotto/Servizio (Opzionale): {{ $json.body.campaign_data.product_url }}\nDescrizione Campagna: {{ $json.body.campaign_data.description }}\n\npiattaforme: {{ $json.body.campaign_data.platforms }}\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -112,
+        -288
+      ],
+      "id": "295326c7-a358-471b-8979-043247387e69",
+      "name": "easy mode"
+    }
+  ],
+  "pinData": {
+    "AI Agent": [
+      {
+        "json": {
+          "output": {
+            "creative_strategy": {
+              "total_creatives": 6,
+              "distribution_rationale": "Basato su un budget di €1500, ho raccomandato un totale di 6 creative per bilanciare visibilità e focus su ciascuna piattaforma, privilegiando i formati essenziali per un lancio. Ho previsto 2 creative per Meta per coprire un formato statico e uno video, 2 ad group per Google per testare intenti di ricerca diversi, e 2 concetti video per TikTok per massimizzare l'engagement con il target giovane.",
+              "a_b_testing_recommendations": [
+                "Testare headline benefit-focused vs feature-focused su Meta.",
+                "Testare diverse combinazioni di headline e descrizioni su Google Ads per identificare le più performanti.",
+                "Valutare l'efficacia di video TikTok con approccio umoristico vs risoluzione problema."
+              ]
+            },
+            "meta_ads": {
+              "creative_count": 2,
+              "budget_allocation": "Basato su budget di €550, raccomando 2 creative per Meta perché il budget è limitato e ci concentriamo sui formati essenziali per massimizzare la visibilità sul target di studenti.",
+              "creatives": [
+                {
+                  "type": "Single Image Ad",
+                  "headline": "Fame? Ordina Ora! Consegna Veloce per Studenti",
+                  "primary_text": "Il tuo nuovo servizio di food delivery preferito è arrivato! Sconti esclusivi per universitari a Roma e Milano.",
+                  "description": "Piatti deliziosi, prezzi speciali. Scarica l'app!",
+                  "call_to_action": "Scarica l'App",
+                  "visual_description": "Immagine di studenti sorridenti che mangiano cibo consegnato, con logo del servizio in evidenza.",
+                  "targeting_focus": "Studenti universitari, interessi \"cibo\", \"delivery\", \"università\"."
+                },
+                {
+                  "type": "Video Ad",
+                  "headline": "Consegna di Cibo Veloce? Ci Pensiamo Noi!",
+                  "primary_text": "Non perdere tempo a cucinare, ordina con un tap! La soluzione perfetta per le tue pause studio.",
+                  "description": "Gusta i tuoi tuoi piatti preferiti senza pensieri.",
+                  "call_to_action": "Ordina Subito",
+                  "visual_description": "Video breve (15s) che mostra il processo di ordinazione dall'app, la consegna rapida e uno studente che riceve il cibo felice.",
+                  "targeting_focus": "Studenti universitari, interessi \"ristoranti\", \"take away\", \"vita universitaria\"."
+                }
+              ]
+            },
+            "google_ads": {
+              "creative_count": 2,
+              "budget_allocation": "Considerando l'obiettivo di conversioni rapide per un nuovo servizio, suggerisco 2 ad group per Google per testare messaggi incentrati sulla velocità e sconti, con un budget di €400.",
+              "ad_groups": [
+                {
+                  "theme": "Food Delivery Service for Students",
+                  "headline_1": "Food Delivery per Studenti Roma",
+                  "headline_2": "Consegna Veloce & Sconti Uni",
+                  "description": "Il tuo nuovo servizio di food delivery per universitari a Roma e Milano. Gusta i tuoi piatti preferiti a prezzi speciali.",
+                  "final_url": "https://www.scarpescarpestore.com/delivery",
+                  "keywords": [
+                    "food delivery studenti roma",
+                    "consegna cibo università milano",
+                    "app cibo studenti",
+                    "sconti universitari delivery"
+                  ],
+                  "extensions": [
+                    "Sconti Studenti",
+                    "Consegna Gratuita",
+                    "Scarica l'App"
+                  ]
+                },
+                {
+                  "theme": "Fast Food Delivery Deals",
+                  "headline_1": "Consegna Cibo in 30 Minuti!",
+                  "headline_2": "Offerte Esclusive per Studenti",
+                  "description": "Ordina ora e ricevi il tuo pasto in un lampo. Promozioni imperdibili per la community universitaria.",
+                  "final_url": "https://www.scarpescarpestore.com/delivery/deals",
+                  "keywords": [
+                    "delivery veloce roma studenti",
+                    "offerte cibo universitari milano",
+                    "pasti a domicilio studenti",
+                    "codici sconto delivery uni"
+                  ],
+                  "extensions": [
+                    "Pranzo Veloce",
+                    "Cena Studenti",
+                    "Menu Speciali"
+                  ]
+                }
+              ]
+            },
+            "tiktok_ads": {
+              "creative_count": 2,
+              "budget_allocation": "Data la natura del prodotto e il target giovane, propongo 2 concepts per TikTok con un budget di €550 per coprire un approccio divertente e uno più diretto al problema-soluzione, massimizzando l'engagement.",
+              "video_concepts": [
+                {
+                  "concept_name": "Vita da Studente Vs. Delivery",
+                  "video_script": "Studente stressato dallo studio che tenta di cucinare e fa un disastro. Cut a lui che ordina felice dal servizio di delivery e riceve il cibo. Usa un audio virale su TikTok per il contrasto.",
+                  "caption": "La dura realtà della cucina universitaria 😩 Menomale che c'è [Nome Servizio]! #vitadastudente #deliveryfood #unilife #romatiktok #milanotiktok",
+                  "hashtags": [
+                    "#vitadastudente",
+                    "#deliveryfood",
+                    "#unilife",
+                    "#romatiktok",
+                    "#milanotiktok",
+                    "#ciboperstudenti"
+                  ],
+                  "call_to_action": "Ordina ora!",
+                  "trend_references": [
+                    "Lip-sync/audio trend che enfatizza un contrasto o una \"glow up\"."
+                  ]
+                },
+                {
+                  "concept_name": "Soluzione Fame Lampo",
+                  "video_script": "Studente che si lamenta di non avere tempo per mangiare tra una lezione e l'altra. Mostra l'app, il processo di ordinazione rapido e la consegna di un pasto sano o goloso. Enfasi sulla velocità e convenienza.",
+                  "caption": "Hai 5 minuti tra una lezione e l'altra? Ti portiamo il pranzo direttamente da te! 🚀 #pausastudio #deliveryveloce #mangiaresano #università #foodroma #foodmilano",
+                  "hashtags": [
+                    "#pausastudio",
+                    "#deliveryveloce",
+                    "#mangiaresano",
+                    "#università",
+                    "#foodroma",
+                    "#foodmilano",
+                    "#studentlife"
+                  ],
+                  "call_to_action": "Scarica l'App!",
+                  "trend_references": [
+                    "Transizioni veloci, \"life hack\" style."
+                  ]
+                }
+              ]
+            },
+            "cross_platform": {
+              "total_budget": 1500,
+              "budget_distribution": {
+                "meta": 550,
+                "google": 400,
+                "tiktok": 550
+              },
+              "campaign_duration": 2,
+              "kpis": [
+                "App Downloads",
+                "First Orders",
+                "CPA",
+                "ROI"
+              ],
+              "creative_rotation_schedule": "Ogni settimana, o in base alle performance per ottimizzare la spesa e mantenere la freschezza dei contenuti."
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Documentazione Ufficiale e Best Practices per Meta, Google e TikTok Ads",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Documentazione Ufficiale e Best Practices per Meta, Google e TikTok Ads": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "easy mode",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "advanced mode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "advanced mode": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "easy mode": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2f16cf2c-5d1b-4fa3-86e0-dbe41f73f7a8",
+  "meta": {
+    "instanceId": "6d6b0b5855e84055e8afd9dfe6dfcae91bd143c4632381feb760888a45b80156"
+  },
+  "id": "CeOaEu8oi1kVlRdh",
+  "tags": []
+}
